@@ -1,22 +1,25 @@
 const express = require('express')
-const app = express()
-const port = parseInt(process.env.PORT) || 8080;
-// const routes = require('./routes/v1');
+const v1Routes = require('./routes/v1');
 
+
+const app = express()
 
 // parse json request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// v1 api routes
-// app.use('/v1', routes);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  const name = process.env.NAME || 'World';
+  res.send(`Hello ${name}!`);
+});
 
+// v1 api routes
+app.use('/api/v1', v1Routes);
+
+const port = parseInt(process.env.PORT) || 8080;
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`helloworld: listening on port ${port}`);
+});
 
