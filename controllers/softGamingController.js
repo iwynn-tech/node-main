@@ -1,20 +1,20 @@
 const { db } = require("../config/firebase");
 
-const crypto = require('crypto');
-const base = Object.assign({}, requestBody);
-delete base.hmac;
-if ('actions' in base) {
-let actions = '';
-for (const action of base.actions) {
-        Object.keys(action).sort().forEach(key => actions += action[key]);
-    }
-    base.actions = actions;
-}
-const hash = crypto.createHash('sha256');
-const hmac = crypto.createHmac('sha256', hash.update(secretKey).digest('buffer'));
-let hmacBase = '';
-Object.keys(base).sort().forEach(key => hmacBase += base[key]);
-const hmacString = hmac.update(hmacBase).digest('hex');
+// const crypto = require('crypto');
+// const base = Object.assign({}, requestBody);
+// delete base.hmac;
+// if ('actions' in base) {
+// let actions = '';
+// for (const action of base.actions) {
+//         Object.keys(action).sort().forEach(key => actions += action[key]);
+//     }
+//     base.actions = actions;
+// }
+// const hash = crypto.createHash('sha256');
+// const hmac = crypto.createHmac('sha256', hash.update(secretKey).digest('buffer'));
+// let hmacBase = '';
+// Object.keys(base).sort().forEach(key => hmacBase += base[key]);
+// const hmacString = hmac.update(hmacBase).digest('hex');
 
 
 
