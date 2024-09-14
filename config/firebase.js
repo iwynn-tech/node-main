@@ -1,15 +1,13 @@
 const { initializeApp, cert,applicationDefault } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
-const serviceAccount = require('../iwynn-gaming-admin.json');  // Ensure correct relative path
 require('dotenv').config();  // Load environment variables from .env
 
 
 let app;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     // Local environment: use the service account JSON file
-    const serviceAccountPath = path.resolve(__dirname, process.env.FIREBASE_SERVICE_ACCOUNT);
-    const serviceAccount = require(serviceAccountPath);
-  
+
+    const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT);
     app = initializeApp({
       credential: cert(serviceAccount),
     }, 'app');
