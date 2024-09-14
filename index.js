@@ -1,6 +1,7 @@
 const express = require('express')
 const v1Routes = require('./routes/v1');
 const { getIpAddress } = require('./util/networkUtil');
+const axios  = require('axios');
 
 const app = express()
 
@@ -9,8 +10,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.get('/', (req, res) => {
-  res.send(`Server IP Address: ${getIpAddress()}`);
+app.get('/', async(req, res) => {
+  try {
+    const ipRes = await axios.get('https://api.ipify.org?format=json');
+
+    res.send(`${getIpAddress()} Your Cloud Run's outbound IP address: ${ipRes.data.ip}`);
+
+  } catch (error) {
+    console.log(error.message)
+    res.send(`error ${error.message}`);
+
+  }
 });
 
 // v1 api routes
