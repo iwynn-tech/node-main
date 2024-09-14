@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 // v1 api routes
 app.use('/api/v1', v1Routes);
 
-const port = parseInt(process.env.PORT) || 8080;
+const port =  8080;
 app.listen(port, () => {
   console.log(`helloworld: listening on port ${port}`);
 });
