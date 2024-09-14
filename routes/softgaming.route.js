@@ -1,5 +1,5 @@
 const express = require('express');
-const softGamingController = require('../controllers/softGamingRouter')
+const softGamingController = require('../controllers/softGamingController')
 
 
 const router = express.Router();
