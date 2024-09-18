@@ -105,7 +105,7 @@ const callback = async (req, res) => {
     const hash = generateHash(path,tid)
 
     let params =""
-    if(req.body.param.length>0)
+    if(req?.body?.param?.length>0)
       params = params.map(obj => {
         return Object.keys(obj)
             .map(key => `${key}=${encodeURIComponent(obj[key])}`) // Use encodeURIComponent to handle special characters
