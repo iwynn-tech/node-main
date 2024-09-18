@@ -61,17 +61,15 @@ const callback = async (req, res) => {
 
     const getGameCategories = async (server, key, casinoServerIp, tid, pwd) => {
       try {
-
-        const ipRes = await axios.get('https://api.ipify.org?format=json');
-
-        // res.send(`${ipRes.data.ip}`);
+        console.log(server, key, casinoServerIp, tid, pwd)
         // Step 1: Generate the hash using the required data format
-        const hashData = `Game/Categories/${ipRes.data.ip}/${tid}/${key}/${pwd}`;
+        const hashData = `game/categories/${casinoServerIp}/${tid}/${key}/${pwd}`;
         const hash = crypto.createHash('md5').update(hashData).digest('hex');
-    
+        // console.log(hash,'ini hash md5 nya...')
+
         // Step 2: Construct the request URL
-        const url = `https://${server}/System/Api/${key}/Game/Categories/?TID=${tid}&Hash=${hash}`;
-        
+        const url = `https://apitest.fundist.org/system/api/${key}/game/categories/?TID=${tid}&Hash=${hash}`;
+        console.log(url,'ini urlnya...')
         // Step 3: Send the GET request
         const response = await axios.get(url);
     
@@ -90,10 +88,10 @@ const callback = async (req, res) => {
       }
     };
       // Example usage:
-      const server = 'iwynn.casino';
+      const server = process.env.FUNDIST_URL;
       const key = process.env.FUNDIST_API;
-      const casinoServerIp = '34.34.254.239';
-      const tid = moment().unix();
+      const casinoServerIp = process.env.GOOGLE_STATIC_IP;
+      const tid = moment().unix().valueOf();
       const pwd = process.env.FUNDIST_PASSWORD;
       getGameCategories(server, key, casinoServerIp, tid, pwd);
   }
