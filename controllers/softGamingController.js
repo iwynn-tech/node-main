@@ -95,34 +95,27 @@ const callback = async (req, res) => {
   }
 
   const get = async(req,res)=>{
-    const path = req.path
-    const endpoint = path.replace('/api/', '')
-    const  TID  = tid; 
-  
-    try {
-      // Generate the hash based on the endpoint and TID
-      const hash = generateHash(endpoint, TID);
-      const url = `${fundistUrl}/${endpoint}/?&TID=${TID}&Hash=${hash}`;
-      
-      // Make the API request
-      const response = await axios.get(url);
-  
-      // Handle the response
-      if (response.status === 200) {
-        res.send({ status: true, data: response.data });
-      } else {
-        res.send({ status: false, message: response.statusText });
-      }
-    } catch (error) {
-      res.send({ status: false, message: error.message });
-    }
+    
+  try {
+    const body = req.body
+    if(!body.path) return res.send({status:false,message:'path must be submited pathX/pathY'})
+    const path = body.path // Game/Categories
+    const hash = generateHash(path)
+
+    const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}`;
+    const response = await axios.get(url);
+    res.send({status:true,data:response.data})
+
+  } catch (error) {
+    res.send({status:false,message:error.message})
+  }
 
   }
 
 
-  const post = async(req,res)=>{
+  // const post = async(req,res)=>{
 
-  }
+  // }
 
   module.exports = { 
     callback,

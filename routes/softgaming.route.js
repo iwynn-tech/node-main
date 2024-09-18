@@ -4,7 +4,7 @@ const softGamingController = require('../controllers/softGamingController')
 
 const router = express.Router();
 
-router.get('/get/**',softGamingController.get);
+router.post('/get',softGamingController.get);
 // router.get('/callback',softGamingController.callback);
 router.post('/authentication',softGamingController.authentication);
 router.get('/game-catalog',softGamingController.gameCatalog);
