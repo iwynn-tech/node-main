@@ -63,16 +63,18 @@ const callback = async (req, res) => {
       try {
         console.log(server, key, casinoServerIp, tid, pwd)
         // Step 1: Generate the hash using the required data format
-        const hashData = `game/categories/${casinoServerIp}/${tid}/${key}/${pwd}`;
+        // Game/Categories/[CASINO_SERVER_IP]/[TID]/[KEY]/[PWD]
+        const hashData = `Game/Categories/${casinoServerIp}/${tid}/${key}/${pwd}`;
         const hash = crypto.createHash('md5').update(hashData).digest('hex');
-        // console.log(hash,'ini hash md5 nya...')
+        console.log(hash,'ini hash md5 nya...')
 
         // Step 2: Construct the request URL
-        const url = `https://apitest.fundist.org/system/api/${key}/game/categories/?TID=${tid}&Hash=${hash}`;
+        const url = `https://apitest.fundist.org/System/Api/${key}/Game/Categories/?&TID=${tid}&Hash=${hash}`;
         console.log(url,'ini urlnya...')
         // Step 3: Send the GET request
         const response = await axios.get(url);
     
+        console.log(response.data,'ini response')
         // Step 4: Handle the response
         if (response.status === 200) {
           console.log('Success:', response.data);
@@ -91,7 +93,7 @@ const callback = async (req, res) => {
       const server = process.env.FUNDIST_URL;
       const key = process.env.FUNDIST_API;
       const casinoServerIp = process.env.GOOGLE_STATIC_IP;
-      const tid = moment().unix().valueOf();
+      const tid = moment().unix().valueOf()+1;
       const pwd = process.env.FUNDIST_PASSWORD;
       getGameCategories(server, key, casinoServerIp, tid, pwd);
   }
