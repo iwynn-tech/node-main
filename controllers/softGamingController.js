@@ -4,6 +4,18 @@ const crypto = require('crypto');
 const moment = require("moment");
 require('dotenv').config();  // Load environment variables from .env
 
+const fundistUrl = `${process.env.FUNDIST_URL}/System/Api/${process.env.FUNDIST_API}`
+const casinoServerIp = process.env.GOOGLE_STATIC_IP
+const tid = moment().unix().valueOf()+1;
+const pwd = process.env.FUNDIST_PASSWORD
+const key = process.env.FUNDIST_API
+
+// Function to generate MD5 hash
+function generateHash(endpoint, tid) {
+  const hashData = `${endpoint}/${casinoServerIp}/${tid}/${key}/${pwd}`;
+  return crypto.createHash('md5').update(hashData).digest('hex');
+}
+
 const callback = async (req, res) => {
   
   return res.status(200).json({status:true,message:'No longer using this endpoint'})
@@ -58,20 +70,11 @@ const callback = async (req, res) => {
   }
 
   const gameCategory = async(req,res)=>{
-
-    const getGameCategories = async (server, key, casinoServerIp, tid, pwd) => {
       try {
-        console.log(server, key, casinoServerIp, tid, pwd)
-        // Step 1: Generate the hash using the required data format
-        // Game/Categories/[CASINO_SERVER_IP]/[TID]/[KEY]/[PWD]
         const hashData = `Game/Categories/${casinoServerIp}/${tid}/${key}/${pwd}`;
         const hash = crypto.createHash('md5').update(hashData).digest('hex');
-        console.log(hash,'ini hash md5 nya...')
 
-        // Step 2: Construct the request URL
-        const url = `https://apitest.fundist.org/System/Api/${key}/Game/Categories/?&TID=${tid}&Hash=${hash}`;
-        console.log(url,'ini urlnya...')
-        // Step 3: Send the GET request
+        const url = `${fundistUrl}/Game/Categories/?&TID=${tid}&Hash=${hash}`;
         const response = await axios.get(url);
     
         console.log(response.data,'ini response')
@@ -88,21 +91,46 @@ const callback = async (req, res) => {
         console.error('An error occurred:', error.message);
         res.send({status:false,message:error.message})
       }
-    };
-      // Example usage:
-      const server = process.env.FUNDIST_URL;
-      const key = process.env.FUNDIST_API;
-      const casinoServerIp = process.env.GOOGLE_STATIC_IP;
-      const tid = moment().unix().valueOf()+1;
-      const pwd = process.env.FUNDIST_PASSWORD;
-      getGameCategories(server, key, casinoServerIp, tid, pwd);
+
+  }
+
+  const get = async(req,res)=>{
+    const path = req.path
+    const endpoint = path.replace('/api/', '')
+    const  TID  = tid; 
+  
+    try {
+      // Generate the hash based on the endpoint and TID
+      const hash = generateHash(endpoint, TID);
+      const url = `${fundistUrl}/${endpoint}/?&TID=${TID}&Hash=${hash}`;
+      
+      // Make the API request
+      const response = await axios.get(url);
+  
+      // Handle the response
+      if (response.status === 200) {
+        res.send({ status: true, data: response.data });
+      } else {
+        res.send({ status: false, message: response.statusText });
+      }
+    } catch (error) {
+      res.send({ status: false, message: error.message });
+    }
+
+  }
+
+
+  const post = async(req,res)=>{
+
   }
 
   module.exports = { 
     callback,
     authentication,
     gameCatalog,
-    gameCategory 
+    gameCategory,
+    get,
+    // post
   };
 
 
