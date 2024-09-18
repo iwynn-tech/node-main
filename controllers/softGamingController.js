@@ -78,7 +78,7 @@ const callback = async (req, res) => {
         // Step 4: Handle the response
         if (response.status === 200) {
           console.log('Success:', response.data);
-          res.send({status:true,data:result.data})
+          res.send({status:true,data:response.data})
 
         } else {
           console.error('Error:', response.status, response.statusText);
