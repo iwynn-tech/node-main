@@ -103,12 +103,17 @@ const callback = async (req, res) => {
     const tid = moment().unix().valueOf()+Math.floor(Math.random() * 10);;
     const path = body.path // Game/Categories
     const hash = generateHash(path,tid)
-    const hashData = `${path}/${casinoServerIp}/${tid}/${key}/${pwd}`;
 
-    // console.log(hashData)
+    let params =""
+    if(req.body.param.length>0)
+      params = params.map(obj => {
+        return Object.keys(obj)
+            .map(key => `${key}=${encodeURIComponent(obj[key])}`) // Use encodeURIComponent to handle special characters
+            .join('&');
+    }).join('&'); // Join all key=value pairs with '&'
 
 
-    const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}`;
+    const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}${params}`;
     const response = await axios.get(url);
     res.send({status:true,data:response.data})
 
