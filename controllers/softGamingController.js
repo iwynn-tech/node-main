@@ -6,13 +6,14 @@ require('dotenv').config();  // Load environment variables from .env
 
 const fundistUrl = `${process.env.FUNDIST_URL}/System/Api/${process.env.FUNDIST_API}`
 const casinoServerIp = process.env.GOOGLE_STATIC_IP
-const tid = moment().unix().valueOf()+1;
+const tid = moment().unix().valueOf()+Math.floor(Math.random() * 10);;
 const pwd = process.env.FUNDIST_PASSWORD
 const key = process.env.FUNDIST_API
 
 // Function to generate MD5 hash
 function generateHash(endpoint, tid) {
   const hashData = `${endpoint}/${casinoServerIp}/${tid}/${key}/${pwd}`;
+  // console.log(hashData,'hash inside generator')
   return crypto.createHash('md5').update(hashData).digest('hex');
 }
 
@@ -99,8 +100,13 @@ const callback = async (req, res) => {
   try {
     const body = req.body
     if(!body.path) return res.send({status:false,message:'path must be submited pathX/pathY'})
+    const tid = moment().unix().valueOf()+Math.floor(Math.random() * 10);;
     const path = body.path // Game/Categories
-    const hash = generateHash(path)
+    const hash = generateHash(path,tid)
+    const hashData = `${path}/${casinoServerIp}/${tid}/${key}/${pwd}`;
+
+    // console.log(hashData)
+
 
     const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}`;
     const response = await axios.get(url);
