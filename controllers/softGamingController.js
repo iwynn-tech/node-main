@@ -61,8 +61,12 @@ const callback = async (req, res) => {
 
     const getGameCategories = async (server, key, casinoServerIp, tid, pwd) => {
       try {
+
+        const ipRes = await axios.get('https://api.ipify.org?format=json');
+
+        // res.send(`${ipRes.data.ip}`);
         // Step 1: Generate the hash using the required data format
-        const hashData = `Game/Categories/${casinoServerIp}/${tid}/${key}/${pwd}`;
+        const hashData = `Game/Categories/${ipRes.data.ip}/${tid}/${key}/${pwd}`;
         const hash = crypto.createHash('md5').update(hashData).digest('hex');
     
         // Step 2: Construct the request URL
@@ -92,7 +96,6 @@ const callback = async (req, res) => {
       const tid = moment().unix();
       const pwd = process.env.FUNDIST_PASSWORD;
       getGameCategories(server, key, casinoServerIp, tid, pwd);
-
   }
 
   module.exports = { 
