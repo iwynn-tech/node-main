@@ -6,6 +6,7 @@ const router = express.Router();
 
 // api/v1/softgaming/
 router.post('/get',softGamingController.get);
+router.post('/get-trial',softGamingController.get);
 router.post('/user',softGamingController.user);
 // router.post('/authentication',softGamingController.authentication);
 // router.get('/game-catalog',softGamingController.gameCatalog);
