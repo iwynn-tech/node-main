@@ -38,7 +38,7 @@ function generateHashUser(endpoint, tid,login,password,currency) {
 
     let params =""
     if(req?.body?.param?.length>0)
-      params = params.map(obj => {
+      params = req?.body?.param.map(obj => {
         return Object.keys(obj)
             .map(key => `${key}=${encodeURIComponent(obj[key])}`) // Use encodeURIComponent to handle special characters
             .join('&');
