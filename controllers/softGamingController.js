@@ -79,7 +79,7 @@ function generateHashUser(endpoint, tid,login,password,currency) {
 
   
   
-      
+
       const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}&password=${password}&${params}`;
       console.log(url,'ini url nya...')
 
@@ -94,10 +94,25 @@ function generateHashUser(endpoint, tid,login,password,currency) {
     
   }
 
+  const getTrial = async(req,res)=>{
+    
+    try {
+      const body=req.body
+      console.log(body)
+      const response = await axios.get(body.url);
+      res.send({status:true,data:response.data})
+  
+    } catch (error) {
+      res.send({status:false,message:error.message})
+    }
+  
+    }
+
 
   module.exports = { 
     user,
     get,
+    getTrial
   };
 
 
