@@ -75,9 +75,12 @@ function generateHashUser(endpoint, tid,login,password,currency) {
               .map(key => `${key}=${encodeURIComponent(obj[key])}`) // Use encodeURIComponent to handle special characters
               .join('&');
       }).join('&'); 
+
   
   
-      const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}&password=${password}${params}`;
+      const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}&password=${password}&${params}`;
+      console.log(url,'ini url nya...')
+
       const response = await axios.get(url);
       res.send({status:true,data:response.data})
   
