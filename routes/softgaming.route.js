@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/get',softGamingController.get);
 router.post('/get-trial',softGamingController.get);
 router.post('/user',softGamingController.getTrial);
+router.post('/get-only',softGamingController.getOnly);
 // router.post('/authentication',softGamingController.authentication);
 // router.get('/game-catalog',softGamingController.gameCatalog);
 // router.get('/game-category',softGamingController.gameCategory);

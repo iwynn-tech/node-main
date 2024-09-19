@@ -98,7 +98,10 @@ function generateHashUser(endpoint, tid,login,password,currency) {
     
     try {
       const body=req.body
-      console.log(body)
+      console.log(body.url)
+
+      const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}&password=${password}&${params}`;
+
       const response = await axios.get(body.url);
       res.send({status:true,data:response.data})
   
@@ -108,11 +111,23 @@ function generateHashUser(endpoint, tid,login,password,currency) {
   
   }
 
+  const getOnly = async(req,res)=>{
+    try {
+      const q = req.body
+      console.log(q,'ini q nya...')
+      const response = await axios.get(q.url);
+      res.send({status:true,body:q.url,data:response.data})
+    } catch (error) {
+      res.send({status:false,message:error.message})
+    }
+  }
+
 
   module.exports = { 
     user,
     get,
-    getTrial
+    getTrial,
+    getOnly
   };
 
 
