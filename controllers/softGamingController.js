@@ -79,6 +79,7 @@ function generateHashUser(endpoint, tid,login,password,currency) {
 
   
   
+      
       const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}&password=${password}&${params}`;
       console.log(url,'ini url nya...')
 
