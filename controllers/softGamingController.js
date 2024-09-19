@@ -46,6 +46,7 @@ function generateHashUser(endpoint, tid,login,password,currency) {
 
 
     const url = `${fundistUrl}/${path}/?&TID=${tid}&Hash=${hash}${params}`;
+    console.log(url)
     const response = await axios.get(url);
     res.send({status:true,data:response.data})
 
