@@ -106,7 +106,7 @@ function generateHashUser(endpoint, tid,login,password,currency) {
       res.send({status:false,message:error.message})
     }
   
-    }
+  }
 
 
   module.exports = { 
